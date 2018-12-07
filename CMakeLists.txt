@@ -4,11 +4,23 @@ project(Assignment_1)
 
 if(MSVC)
   include_directories(
-    contrib/msvc-windows-x86/SDL2/include
+    ${CMAKE_SOURCE_DIR}/contrib
+	${CMAKE_SOURCE_DIR}/contrib/glm
+	${CMAKE_SOURCE_DIR}/contrib/msvc-windows-x86/SDL2/include
   )
 
   link_directories(
     ${CMAKE_SOURCE_DIR}/contrib/msvc-windows-x86/SDL2/lib
+  )
+else()
+  include_directories(
+    /usr/X11R6/include
+    /usr/local/include
+  )
+
+  link_directories(
+    /usr/X11R6/lib
+    /usr/local/lib
   )
 endif()
 
@@ -17,15 +29,17 @@ if(MSVC)
 endif()
 
 add_executable(RayTracer
-  src/main.cpp
   src/Camera.cpp
   src/Camera.h
+  src/main.cpp
   src/Object.cpp
   src/Object.h
   src/Ray.cpp
   src/Ray.h
   src/Tracer.cpp
   src/Tracer.h
+  src/Window.cpp
+  src/Window.h
 )
 
 if(MSVC)

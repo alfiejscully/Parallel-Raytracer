@@ -1,33 +1,33 @@
 #include <SDL2/SDL.h>
+#include <glm.h>
 
 #include <iostream>
+#include <memory>
 
-// Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+#include "Window.h"
+
 
 int main(int argc, char* args[])
 {
-	// The window we'll be rendering to
-	SDL_Window* window = NULL;
 
-	// The surface contained by the window
-	SDL_Surface* screenSurface = NULL;
+	SDL_Event event;
 
-	// Initialize SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	std::shared_ptr<Window> window = std::make_shared<Window>();
+
+
+
+
+
+
+	while (true)
 	{
-		std::cout << "SDL could not initialise! SDL_Error: " << SDL_GetError() << std::endl;
-	}
-	else
-	{
-		// Create window
-		window = SDL_CreateWindow("RayTracer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-		if (window == NULL)
+		if (SDL_PollEvent(&event) && event.type == SDL_QUIT)
 		{
-			std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+			break;
 		}
 	}
 
-	std::cin.get();
+	SDL_Quit();
+
+	return 0;
 }
