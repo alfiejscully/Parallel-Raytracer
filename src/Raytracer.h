@@ -1,6 +1,6 @@
 
 
-class Object
+class Raytracer
 {
 private:
 

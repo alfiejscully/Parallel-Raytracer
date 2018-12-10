@@ -10,17 +10,21 @@ private:
 	// The surface contained by the window
 	SDL_Surface* m_screenSurface = nullptr;
 
+	// Stores the windows width value
 	int m_width;
+	// Stores the windows height value
 	int m_height;
 
 public:
-	Window();
+	Window(int _width, int _height);
 	~Window();
 
 	// Get the window value
-	SDL_Window* GetWindow() const { return m_window; }
+	SDL_Window* GetWindow() const;
 
-	int GetWidth() const { return m_width; }
-	int GetHeight() const { return m_height; }
+	// Returns width value 
+	int GetWidth() const;
+	// Returns height value 
+	int GetHeight() const;
 
 };
