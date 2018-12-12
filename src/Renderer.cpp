@@ -103,7 +103,7 @@ void Renderer::Draw()
 			DrawColour({ m_pixels[i][j].r, m_pixels[i][j].g, m_pixels[i][j].b, 255 });
 			DrawPoint({ i, m_height - j });
 
-		}
+		} 
 	}
 
 }
@@ -118,4 +118,9 @@ float Renderer::RandomNumber()
 	}
 
 	return r;
+}
+
+void Renderer::HandleAreas(Area _area, RayHitTable * _world)
+{
+
 }

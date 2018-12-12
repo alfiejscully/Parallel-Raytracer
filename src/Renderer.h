@@ -6,6 +6,7 @@
 #include <memory>
 #include <Vector>
 #include <time.h>
+#include <thread>
 
 class Window;
 class Ray;
@@ -13,6 +14,12 @@ class Camera;
 class Object;
 class RayHitList;
 class RayHitTable;
+
+struct Area
+{
+	glm::vec2 m_min;
+	glm::vec2 m_max;
+};
 
 class Renderer
 {
@@ -23,7 +30,6 @@ private:
 	std::shared_ptr<Window> m_window;
 	// Pointer variable of the camera class
 	std::shared_ptr<Camera> m_camera;
-
 	std::shared_ptr<Object> m_object = std::make_shared<Object>();
 
 	// value for width of the window
@@ -32,6 +38,11 @@ private:
 	int m_height;
 
 	glm::vec3 m_pixels[400][200];
+
+	std::vector<std::shared_ptr<std::thread>> m_threads;
+	glm::vec2 m_areaCount;
+	glm::vec2 m_areaSize;
+	std::vector<Area> m_areas;
 
 	int m_red;
 	int m_green;
@@ -60,6 +71,8 @@ public:
 	void Draw();
 
 	float RandomNumber();
+
+	void HandleAreas(Area _area, RayHitTable* _world);
 
 	//// Colour function using ray in parameters
 	//glm::vec3 Colour(std::shared_ptr<Ray> _ray);

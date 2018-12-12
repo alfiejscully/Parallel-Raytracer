@@ -26,6 +26,7 @@ int main(int argc, char* args[])
 	renderer->Draw();
 
 	renderer->PresentRenderer();
+	
 
 	while (true)
 	{
