@@ -1,9 +1,39 @@
+// Libary includes
+#include <glm/glm.hpp>
 
+// System includes 
+#include <memory>
+#include <time.h>
 
-class Object
+// Included for inheritance
+#include "RayHitTable.h"
+
+class Ray;
+struct RayHit;
+
+class Object : public RayHitTable
 {
 private:
+	glm::vec3 m_centre = { 0.0f, 0.0f, 0.0f };
+
+	float m_radius = 0.0f;
+
+	std::shared_ptr<Ray> m_ray;
 
 public:
+	Object() {};
+	Object(glm::vec3 _centre, float _radius);
+
+	virtual bool Hit(const std::shared_ptr<Ray> _ray, float _min, float _max, RayHit& _rayHit) const;
+
+	glm::vec3 RandomNumInObj();
+
+	glm::vec3 Colour(std::shared_ptr<Ray> _ray, RayHitTable* _world);
+
+	float RandomNumber();
+
+	// use the two following function below to restruct the object hit func (BS)
+	glm::vec3 GetCentre() const { return m_centre; }
+	float GetRadius() const { return m_radius; }
 
 };

@@ -15,7 +15,7 @@ int main(int argc, char* args[])
 
 	SDL_Event event;
 
-	std::shared_ptr<Window> window = std::make_shared<Window>(800, 600);
+	std::shared_ptr<Window> window = std::make_shared<Window>(400, 200);
 	std::shared_ptr<Renderer> renderer = std::make_shared<Renderer>(window);
 
 	renderer->ClearRenderer();

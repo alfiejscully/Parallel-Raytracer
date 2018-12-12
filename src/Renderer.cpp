@@ -3,14 +3,19 @@
 #include "Window.h"
 #include "Ray.h"
 #include "Camera.h"
+#include "Object.h"
+#include "RayHitList.h"
+#include "RayHitTable.h"
 
-Renderer::Renderer(std::shared_ptr<Window> _window)
+Renderer::Renderer(std::shared_ptr<Window> _window, std::shared_ptr<Camera> _camera)
 {
-	// Eenderer is created
+	// Renderer is created
 	m_renderer = SDL_CreateRenderer(_window->GetWindow(), -1, SDL_RENDERER_ACCELERATED);
-
 	// Window is equal to the value passed in
 	m_window = _window;
+
+	m_camera = _camera;
+
 	// Gets the windows width
 	m_width = m_window->GetWidth();
 	// Gets the windows height 
@@ -64,9 +69,9 @@ void Renderer::Draw()
 			float v = float(j) / float(m_height);
 			//gradient for position
 
-			Ray r(m_camera->GetOrigin(), m_camera->GetBottomLeftCorner() + (u * m_camera->GetHorizontal()) + (v * m_camera->GetVertical()));
+			std::shared_ptr<Ray> ray = std::make_shared<Ray>(m_camera->GetOrigin(), m_camera->GetBottomLeftCorner() + (u * m_camera->GetHorizontal()) + (v * m_camera->GetVertical()));
 
-			glm::vec3 pixelColour = Colour(r);
+			glm::vec3 pixelColour = Colour(ray);
 
 			int red = int(255.99 * pixelColour[0]);
 			int green = int(255.99 * pixelColour[1]);
@@ -74,30 +79,17 @@ void Renderer::Draw()
 
 			m_pixels[i][j] = { red, green, blue };
 			DrawColour({ m_pixels[i][j].r, m_pixels[i][j].g, m_pixels[i][j].b, 255 });
-			DrawPoint({ i, j });
+			DrawPoint({ i, m_height - j });
 
 
 		}
 	}
 
-
-
-	
-	
-	//for (int y = 0; y < m_height; y++)
-	//{
-	//	for (int x = 0; x < m_width; x++)
-	//	{
-	//		m_pixels[x][y] = { 0.0f, 0.0f, 255.0f };
-	//		DrawColour({ m_pixels[x][y].r, m_pixels[x][y].g, m_pixels[x][y].b, 255 });
-	//		DrawPoint({ x, y });
-	//	}
-	//}
 }
 
-glm::vec3 Renderer::Colour(Ray _ray)
+glm::vec3 Renderer::Colour(std::shared_ptr<Ray> _ray)
 {
-	glm::vec3 rayDirection = glm::normalize(_ray.GetDirection());
+	glm::vec3 rayDirection = glm::normalize(_ray->GetDirection());
 	float t = 0.5f * (rayDirection.y + 1.0f);
 	return (1.0f - t) * glm::vec3{ 1.0f, 1.0f, 1.0f } + (t * glm::vec3{ 0.5f, 0.7f, 1.0f });
 }
