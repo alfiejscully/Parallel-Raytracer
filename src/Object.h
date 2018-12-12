@@ -14,11 +14,11 @@ struct RayHit;
 class Object : public RayHitTable
 {
 private:
+	// Value of centre
 	glm::vec3 m_centre = { 0.0f, 0.0f, 0.0f };
 
+	// Value of radius
 	float m_radius = 0.0f;
-
-	std::shared_ptr<Ray> m_ray;
 
 public:
 	Object() {};
@@ -31,9 +31,5 @@ public:
 	glm::vec3 Colour(std::shared_ptr<Ray> _ray, RayHitTable* _world);
 
 	float RandomNumber();
-
-	// use the two following function below to restruct the object hit func (BS)
-	glm::vec3 GetCentre() const { return m_centre; }
-	float GetRadius() const { return m_radius; }
 
 };

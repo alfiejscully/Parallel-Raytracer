@@ -10,16 +10,16 @@ RayHitList::RayHitList(RayHitTable ** _i, int _size)
 
 bool RayHitList::Hit(const std::shared_ptr<Ray> _ray, float _min, float _max, RayHit & _rayHit) const
 {
-	RayHit tempHit;
+	RayHit hit;
 	bool anythingHit = false;
 	double closest = _max;
 	for (int i = 0; i < m_size; i++)
 	{
-		if (m_list[i]->Hit(_ray, _min, closest, tempHit))
+		if (m_list[i]->Hit(_ray, _min, closest, hit))
 		{
 			anythingHit = true;
-			closest = tempHit.m_position;
-			_rayHit = tempHit;
+			closest = hit.m_position;
+			_rayHit = hit;
 		}
 	}
 	return anythingHit;

@@ -61,7 +61,7 @@ void Renderer::PresentRenderer()
 
 void Renderer::Draw()
 {
-	int ns = 100;
+	int check = 100;
 
 	srand(time(NULL));
 
@@ -79,7 +79,7 @@ void Renderer::Draw()
 		{
 			glm::vec3 pixelColour = { 0.0f, 0.0f, 0.0f };
 			
-			for (int s = 0; s < ns; s++)
+			for (int antialias = 0; antialias < check; antialias++)
 			{
 				//float u and v help with Antialiasing
 				float u = float(i + RandomNumber()) / float(m_width);
@@ -93,7 +93,7 @@ void Renderer::Draw()
 			}
 	
 
-			pixelColour /= float(ns);
+			pixelColour /= float(check);
 			pixelColour = glm::vec3(glm::sqrt(pixelColour[0]), glm::sqrt(pixelColour[1]), glm::sqrt(pixelColour[2])); //makes the colouring lighter 
 			int red = int(255.99 * pixelColour[0]);
 			int green = int(255.99 * pixelColour[1]);
@@ -102,7 +102,6 @@ void Renderer::Draw()
 			m_pixels[i][j] = { red, green, blue };
 			DrawColour({ m_pixels[i][j].r, m_pixels[i][j].g, m_pixels[i][j].b, 255 });
 			DrawPoint({ i, m_height - j });
-
 
 		}
 	}
