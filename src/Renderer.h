@@ -5,8 +5,8 @@
 // System includes
 #include <memory>
 #include <Vector>
+#include <time.h>
 
-class Camera;
 class Window;
 class Ray;
 class Camera;
@@ -33,6 +33,9 @@ private:
 
 	glm::vec3 m_pixels[400][200];
 
+	int m_red;
+	int m_green;
+	int m_blue;
 
 public:
 	Renderer(std::shared_ptr<Window> _window, std::shared_ptr<Camera> _camera);
@@ -56,7 +59,9 @@ public:
 	// Draws the Pixels
 	void Draw();
 
-	// Colour function using ray in parameters
-	glm::vec3 Colour(std::shared_ptr<Ray> _ray);
+	float RandomNumber();
+
+	//// Colour function using ray in parameters
+	//glm::vec3 Colour(std::shared_ptr<Ray> _ray);
 
 };

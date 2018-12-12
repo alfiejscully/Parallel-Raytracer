@@ -1,4 +1,6 @@
 #include "RayHitList.h"
+#include "RayHitTable.h"
+#include "Ray.h"
 
 RayHitList::RayHitList(RayHitTable ** _i, int _size)
 {
@@ -20,4 +22,5 @@ bool RayHitList::Hit(const std::shared_ptr<Ray> _ray, float _min, float _max, Ra
 			_rayHit = tempHit;
 		}
 	}
+	return anythingHit;
 }

@@ -61,18 +61,40 @@ void Renderer::PresentRenderer()
 
 void Renderer::Draw()
 {
+	int ns = 100;
+
+	srand(time(NULL));
+
+	RayHitTable* list[2];
+
+	list[0] = new Object(glm::vec3(0, 0, -1), 0.5f);
+	list[1] = new Object(glm::vec3(0, -100.5, -1), 100.0f);
+
+	RayHitTable* world = new RayHitList(list, 2);
+
+
 	for (int j = m_height - 1; j >= 0; j--)
 	{
-		for (size_t i = 0; i < m_width; i++)
+		for (int i = 0; i < m_width; i++)
 		{
-			float u = float(i) / float(m_width);
-			float v = float(j) / float(m_height);
-			//gradient for position
+			glm::vec3 pixelColour = { 0.0f, 0.0f, 0.0f };
+			
+			for (int s = 0; s < ns; s++)
+			{
+				//float u and v help with Antialiasing
+				float u = float(i + RandomNumber()) / float(m_width);
+				float v = float(j + RandomNumber()) / float(m_height);
 
-			std::shared_ptr<Ray> ray = std::make_shared<Ray>(m_camera->GetOrigin(), m_camera->GetBottomLeftCorner() + (u * m_camera->GetHorizontal()) + (v * m_camera->GetVertical()));
+				std::shared_ptr<Ray> ray = std::make_shared<Ray>(m_camera->GetOrigin(), m_camera->GetBottomLeftCorner() + (u * m_camera->GetHorizontal()) + (v * m_camera->GetVertical()));
 
-			glm::vec3 pixelColour = Colour(ray);
+				glm::vec3 p = ray->GetRayPoint(2.0f);
+				pixelColour += m_object->Colour(ray, world);
 
+			}
+	
+
+			pixelColour /= float(ns);
+			pixelColour = glm::vec3(glm::sqrt(pixelColour[0]), glm::sqrt(pixelColour[1]), glm::sqrt(pixelColour[2])); //makes the colouring lighter 
 			int red = int(255.99 * pixelColour[0]);
 			int green = int(255.99 * pixelColour[1]);
 			int blue = int(255.99 * pixelColour[2]);
@@ -87,9 +109,14 @@ void Renderer::Draw()
 
 }
 
-glm::vec3 Renderer::Colour(std::shared_ptr<Ray> _ray)
+float Renderer::RandomNumber()
 {
-	glm::vec3 rayDirection = glm::normalize(_ray->GetDirection());
-	float t = 0.5f * (rayDirection.y + 1.0f);
-	return (1.0f - t) * glm::vec3{ 1.0f, 1.0f, 1.0f } + (t * glm::vec3{ 0.5f, 0.7f, 1.0f });
+	float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+
+	if (r == 1.0f)
+	{
+		RandomNumber();
+	}
+
+	return r;
 }
