@@ -32,6 +32,8 @@ add_executable(RayTracer
   src/Camera.cpp
   src/Camera.h
   src/main.cpp
+  src/Material.cpp
+  src/Material.h
   src/Object.cpp
   src/Object.h
   src/Ray.cpp

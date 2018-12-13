@@ -7,13 +7,14 @@
 #include <glm/glm.hpp>
 
 class Ray;
+class Material;
 
 struct RayHit
 {
 	float m_position = 0.0f;
 	glm::vec3 m_point = { 0.0f, 0.0f, 0.0f };
 	glm::vec3 m_normal = { 0.0f, 0.0f, 0.0f };
-
+	std::shared_ptr<Material> m_material;
 
 };
 
