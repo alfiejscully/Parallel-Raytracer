@@ -1,6 +1,7 @@
 #include "Object.h"
 #include "Ray.h"
 #include "Randomizer.h"
+#include "Material.h"
 
 Object::Object(glm::vec3 _centre, float _radius)
 {
@@ -33,7 +34,7 @@ bool Object::Hit(const std::shared_ptr<Ray> _ray, float _min, float _max, RayHit
 			_rayHit.m_position = rayPos;
 			_rayHit.m_point = _ray->GetRayPoint(_rayHit.m_position);
 			_rayHit.m_normal = (_rayHit.m_point - m_centre) / m_radius;
-			
+
 			// Returns true after intersection to object
 			return true;
 		}

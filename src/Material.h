@@ -2,6 +2,10 @@
 #include <memory>
 
 // Libary includes
+// System includes
+#include <memory>
+
+// Libary includes
 #include <glm/glm.hpp>
 
 class Ray;
@@ -10,7 +14,7 @@ struct RayHit;
 class Material
 {
 public:
-	virtual bool Scatter(std::shared_ptr<Ray> _ray, const RayHit& _rayHit, glm::vec3 _attenuation, std::shared_ptr<Ray> _scattered) const;
+	virtual bool Scatter(std::shared_ptr<Ray> _ray, const RayHit& _rayHit, glm::vec3 _attenuation, std::shared_ptr<Ray> _scattered) const = 0;
 
 };
 
@@ -35,5 +39,7 @@ public:
 
 	virtual bool Scatter(std::shared_ptr<Ray> _ray, const RayHit& _rayHit, glm::vec3 _attenuation, std::shared_ptr<Ray> _scattered) const;
 };
+
+glm::vec3 Reflect(glm::vec3 _v, glm::vec3 _n);
 
 glm::vec3 RandomNumInObj();

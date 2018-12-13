@@ -10,6 +10,7 @@
 
 class Ray;
 struct RayHit;
+class Material;
 
 class Object : public RayHitAble
 {

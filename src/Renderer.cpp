@@ -7,12 +7,13 @@
 #include "RayHitList.h"
 #include "RayHitAble.h"
 #include "Randomizer.h"
+#include "Material.h"
 
 Renderer::Renderer(std::shared_ptr<Window> _window, std::shared_ptr<Camera> _camera)
 {
 	// Renderer is created
 	m_renderer = SDL_CreateRenderer(_window->GetWindow(), -1, SDL_RENDERER_ACCELERATED);
-	
+
 	// Value passed into Window
 	m_window = _window;
 
@@ -70,12 +71,14 @@ void Renderer::Draw()
 
 	srand(time(NULL));
 
-	RayHitAble* list[2];
+	RayHitAble* list[4];
 
 	list[0] = new Object(glm::vec3(0, 0, -1), 0.5f);
 	list[1] = new Object(glm::vec3(0, -100.5, -1), 100.0f);
+	list[2] = new Object(glm::vec3(1, 0, -1), 0.5f);
+	list[3] = new Object(glm::vec3(-1, 0, -1), 0.5f);
 
-	RayHitAble* world = new RayHitList(list, 2);
+	RayHitAble* world = new RayHitList(list, 4);
 
 	m_areaCount = { 16, 16 };
 	m_areaSize = { m_width / m_areaCount.x, m_height / m_areaCount.y };
@@ -116,7 +119,7 @@ void Renderer::Draw()
 			DrawPoint({ i, m_height - j });
 		}
 	}
-	
+
 }
 
 void Renderer::HandleAreas(Area _area, RayHitAble* _world)
@@ -145,7 +148,7 @@ void Renderer::HandleAreas(Area _area, RayHitAble* _world)
 
 			pixelColour /= float(check);
 			pixelColour = glm::vec3(glm::sqrt(pixelColour[0]), glm::sqrt(pixelColour[1]), glm::sqrt(pixelColour[2]));
-			
+
 			int red = int(255.99 * pixelColour[0]);
 			int green = int(255.99 * pixelColour[1]);
 			int blue = int(255.99 * pixelColour[2]);
