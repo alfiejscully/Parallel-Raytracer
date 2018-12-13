@@ -6,18 +6,22 @@
 #include "Object.h"
 #include "RayHitList.h"
 #include "RayHitAble.h"
+#include "Randomizer.h"
 
 Renderer::Renderer(std::shared_ptr<Window> _window, std::shared_ptr<Camera> _camera)
 {
 	// Renderer is created
 	m_renderer = SDL_CreateRenderer(_window->GetWindow(), -1, SDL_RENDERER_ACCELERATED);
-	// Window is equal to the value passed in
+	
+	// Value passed into Window
 	m_window = _window;
 
+	// Value pass into Camera
 	m_camera = _camera;
 
 	// Gets the windows width
 	m_width = m_window->GetWidth();
+
 	// Gets the windows height 
 	m_height = m_window->GetHeight();
 
@@ -61,7 +65,8 @@ void Renderer::PresentRenderer()
 
 void Renderer::Draw()
 {
-	int check = 100;
+	// checks 100 times 
+	check = 100;
 
 	srand(time(NULL));
 
@@ -114,31 +119,21 @@ void Renderer::Draw()
 	
 }
 
-float Renderer::RandomNumber()
-{
-	float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-
-	if (r == 1.0f)
-	{
-		RandomNumber();
-	}
-
-	return r;
-}
-
 void Renderer::HandleAreas(Area _area, RayHitAble* _world)
 {
 	for (int y = _area.m_min.y; y < _area.m_max.y; y++)
 	{
 		for (int x = _area.m_min.x; x < _area.m_max.x; x++)
 		{
+			Randomizer rand;
+
 			glm::vec3 pixelColour = { 0.0f, 0.0f, 0.0f };
 
 			for (int antialias = 0; antialias < check; antialias++)
 			{
 				//float u and v help with Antialiasing
-				float u = float(x + RandomNumber()) / float(m_width);
-				float v = float(y + RandomNumber()) / float(m_height);
+				float u = float(x + rand.RandomNumber()) / float(m_width);
+				float v = float(y + rand.RandomNumber()) / float(m_height);
 
 				std::shared_ptr<Ray> ray = std::make_shared<Ray>(m_camera->GetOrigin(), m_camera->GetBottomLeftCorner() + (u * m_camera->GetHorizontal()) + (v * m_camera->GetVertical()));
 

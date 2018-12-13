@@ -36,6 +36,8 @@ add_executable(RayTracer
   src/Material.h
   src/Object.cpp
   src/Object.h
+  src/Randomizer.cpp
+  src/Randomizer.h
   src/Ray.cpp
   src/Ray.h
   src/RayHitAble.cpp

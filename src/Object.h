@@ -30,6 +30,4 @@ public:
 
 	glm::vec3 Colour(std::shared_ptr<Ray> _ray, RayHitAble* _world);
 
-	float RandomNumber();
-
 };

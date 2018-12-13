@@ -1,5 +1,6 @@
 #include "Object.h"
 #include "Ray.h"
+#include "Randomizer.h"
 
 Object::Object(glm::vec3 _centre, float _radius)
 {
@@ -61,9 +62,11 @@ glm::vec3 Object::RandomNumInObj()
 {
 	glm::vec3 point = { 0.0f, 0.0f, 0.0f };
 
+	Randomizer rand;
+
 	do
 	{
-		point = 2.0f * glm::vec3(RandomNumber(), RandomNumber(), RandomNumber()) - glm::vec3(1.0f, 1.0f, 1.0f);
+		point = 2.0f * glm::vec3(rand.RandomNumber(), rand.RandomNumber(), rand.RandomNumber()) - glm::vec3(1.0f, 1.0f, 1.0f);
 	} while (point.x * point.x + point.y * point.y + point.z * point.z >= 1.0f);
 	return point;
 }
@@ -90,16 +93,4 @@ glm::vec3 Object::Colour(std::shared_ptr<Ray> _ray, RayHitAble* _world)
 
 		return (1.0f - t) * glm::vec3(1.0f, 1.0f, 1.0f) + t * glm::vec3(0.5f, 0.7f, 1.0f);
 	}
-}
-
-float Object::RandomNumber()
-{
-	float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-
-	if (r == 1.0f)
-	{
-		RandomNumber();
-	}
-
-	return r;
 }
