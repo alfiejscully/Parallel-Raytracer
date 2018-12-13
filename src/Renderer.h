@@ -48,6 +48,8 @@ private:
 	int m_green;
 	int m_blue;
 
+	int check = 100;
+
 public:
 	Renderer(std::shared_ptr<Window> _window, std::shared_ptr<Camera> _camera);
 	~Renderer();
