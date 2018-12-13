@@ -1,8 +1,8 @@
 #include "RayHitList.h"
-#include "RayHitTable.h"
+#include "RayHitAble.h"
 #include "Ray.h"
 
-RayHitList::RayHitList(RayHitTable ** _i, int _size)
+RayHitList::RayHitList(RayHitAble ** _i, int _size)
 {
 	m_list = _i;
 	m_size = _size;

@@ -6,12 +6,12 @@
 #include <time.h>
 
 // Included for inheritance
-#include "RayHitTable.h"
+#include "RayHitAble.h"
 
 class Ray;
 struct RayHit;
 
-class Object : public RayHitTable
+class Object : public RayHitAble
 {
 private:
 	// Value of centre
@@ -28,7 +28,7 @@ public:
 
 	glm::vec3 RandomNumInObj();
 
-	glm::vec3 Colour(std::shared_ptr<Ray> _ray, RayHitTable* _world);
+	glm::vec3 Colour(std::shared_ptr<Ray> _ray, RayHitAble* _world);
 
 	float RandomNumber();
 

@@ -36,10 +36,10 @@ add_executable(RayTracer
   src/Object.h
   src/Ray.cpp
   src/Ray.h
+  src/RayHitAble.cpp
+  src/RayHitAble.h
   src/RayHitList.cpp
   src/RayHitList.h
-  src/RayHitTable.cpp
-  src/RayHitTable.h
   src/Raytracer.cpp
   src/Raytracer.h
   src/Renderer.cpp

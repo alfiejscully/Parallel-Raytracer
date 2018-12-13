@@ -68,7 +68,7 @@ glm::vec3 Object::RandomNumInObj()
 	return point;
 }
 
-glm::vec3 Object::Colour(std::shared_ptr<Ray> _ray, RayHitTable* _world)
+glm::vec3 Object::Colour(std::shared_ptr<Ray> _ray, RayHitAble* _world)
 {
 	// creates the hit point from ray
 	RayHit rayHit;

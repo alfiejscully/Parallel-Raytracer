@@ -13,7 +13,7 @@ class Ray;
 class Camera;
 class Object;
 class RayHitList;
-class RayHitTable;
+class RayHitAble;
 
 struct Area
 {
@@ -74,7 +74,7 @@ public:
 
 	float RandomNumber();
 
-	void HandleAreas(Area _area, RayHitTable* _world);
+	void HandleAreas(Area _area, RayHitAble* _world);
 
 	//// Colour function using ray in parameters
 	//glm::vec3 Colour(std::shared_ptr<Ray> _ray);

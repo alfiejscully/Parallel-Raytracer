@@ -17,7 +17,7 @@ struct RayHit
 
 };
 
-class RayHitTable
+class RayHitAble
 {
 private:
 

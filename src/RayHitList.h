@@ -5,21 +5,21 @@
 #include<memory>
 
 // Included for inheritance
-#include "RayHitTable.h"
+#include "RayHitAble.h"
 
 class Ray;
 struct RayHit;
 
-class RayHitList : public RayHitTable
+class RayHitList : public RayHitAble
 {
 private:
 	int m_size;
 
-	RayHitTable **m_list;
+	RayHitAble **m_list;
 
 public:
 	RayHitList() {};
-	RayHitList(RayHitTable **_i, int _size);
+	RayHitList(RayHitAble **_i, int _size);
 
 	virtual bool Hit(const std::shared_ptr<Ray> _ray, float _min, float _max, RayHit& _rayHit) const;
 };

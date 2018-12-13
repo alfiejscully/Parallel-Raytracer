@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "Object.h"
 #include "RayHitList.h"
-#include "RayHitTable.h"
+#include "RayHitAble.h"
 
 Renderer::Renderer(std::shared_ptr<Window> _window, std::shared_ptr<Camera> _camera)
 {
@@ -65,12 +65,12 @@ void Renderer::Draw()
 
 	srand(time(NULL));
 
-	RayHitTable* list[2];
+	RayHitAble* list[2];
 
 	list[0] = new Object(glm::vec3(0, 0, -1), 0.5f);
 	list[1] = new Object(glm::vec3(0, -100.5, -1), 100.0f);
 
-	RayHitTable* world = new RayHitList(list, 2);
+	RayHitAble* world = new RayHitList(list, 2);
 
 	m_areaCount = { 16, 16 };
 	m_areaSize = { m_width / m_areaCount.x, m_height / m_areaCount.y };
@@ -126,7 +126,7 @@ float Renderer::RandomNumber()
 	return r;
 }
 
-void Renderer::HandleAreas(Area _area, RayHitTable* _world)
+void Renderer::HandleAreas(Area _area, RayHitAble* _world)
 {
 	for (int y = _area.m_min.y; y < _area.m_max.y; y++)
 	{
