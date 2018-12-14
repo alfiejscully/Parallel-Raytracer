@@ -8,6 +8,7 @@
 // Libary includes
 #include <glm/glm.hpp>
 
+// Forward declares
 class Ray;
 struct RayHit;
 

@@ -2,6 +2,7 @@
 
 Camera::Camera()
 {
+	// Values set
 	m_origin = { 0.0f, 0.0f, 0.0f };
 	m_horizontal = { 4.0f, 0.0f, 0.0f };
 	m_vertical = { 0.0f, 2.0f, 0.0f };

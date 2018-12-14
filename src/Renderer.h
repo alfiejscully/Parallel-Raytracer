@@ -8,6 +8,7 @@
 #include <time.h>
 #include <thread>
 
+// Forward declares
 class Window;
 class Ray;
 class Camera;
@@ -72,8 +73,11 @@ public:
 	// Presents the renderer 
 	void PresentRenderer();
 
-	// Draws the Pixels
-	void Draw();
+	// Draws the Pixels parallel
+	void DrawParallel();
+
+	// Draws with no parallel
+	void DrawWithoutParallel();
 
 	void HandleAreas(Area _area, RayHitAble* _world);
 

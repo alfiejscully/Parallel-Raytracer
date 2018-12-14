@@ -4,7 +4,6 @@
 // Libary includes
 #include <glm/glm.hpp>
 
-
 class Ray
 {
 private:
@@ -16,9 +15,9 @@ public:
 	Ray(const glm::vec3& _origin, const glm::vec3 _direction);
 
 	glm::vec3 GetOrigin() const; // Returns the origin point of the ray
-	void SetOrigin(glm::vec3 const _Origin) { m_origin = _Origin; }
+	
 	glm::vec3 GetDirection() const; // Returns the direction point of the ray
-	void SetDirection(glm::vec3 const _direction) { m_direction = _direction; }
+
 	glm::vec3 GetRayPoint(float _position) const; // Returns the pos point along the ray
 };
 #endif

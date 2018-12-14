@@ -8,6 +8,7 @@
 // Included for inheritance
 #include "RayHitAble.h"
 
+// Forward declares
 class Ray;
 struct RayHit;
 class Material;

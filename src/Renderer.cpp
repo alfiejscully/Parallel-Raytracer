@@ -64,7 +64,7 @@ void Renderer::PresentRenderer()
 	SDL_RenderPresent(m_renderer);
 }
 
-void Renderer::Draw()
+void Renderer::DrawParallel()
 {
 	// checks 100 times 
 	check = 100;
@@ -78,12 +78,12 @@ void Renderer::Draw()
 	list[0] = new Object(glm::vec3(0.0, 0.0, -1.0), 0.5f, new Lambertain(glm::vec3(0.8, 0.3, 0.3)));
 	list[1] = new Object(glm::vec3(0.0, -100.5, -1.0f), 100.0f, new Lambertain(glm::vec3(0.8, 0.8, 0.0)));
 	list[2] = new Object(glm::vec3(1.0, 0.0, -1.0), 0.5f, new Metal(glm::vec3(0.8, 0.6, 0.2), 0.0f));
-	list[3] = new Object(glm::vec3(-1.0, 0.0f, -1.0), -0.5f, new Dielectric(1.5f));
-	list[4] = new Object(glm::vec3(-1.0, 0.0f, -1.0), -0.45f, new Dielectric(1.5f));
+	list[3] = new Object(glm::vec3(-1.0, 0.0f, -1.0), -0.5f, new Dielectric(3.5f));
+	list[4] = new Object(glm::vec3(-1.0, 0.0f, -1.0), -0.45f, new Dielectric(3.5f));
 
 	RayHitAble* world = new RayHitList(list, 5);
 
-	m_areaCount = { 2, 1 };
+	m_areaCount = { 8, 8 };
 	m_areaSize = { m_width / m_areaCount.x, m_height / m_areaCount.y };
 
 	// calculates the amount of areas on the y
@@ -106,6 +106,7 @@ void Renderer::Draw()
 		}
 	}
 
+
 	for (Area area : m_areas)
 	{
 		std::shared_ptr<std::thread> thread = std::make_shared<std::thread>(&Renderer::HandleAreas, this, area, world);
@@ -124,6 +125,69 @@ void Renderer::Draw()
 		{
 			DrawColour({ m_pixels[i][j].r, m_pixels[i][j].g, m_pixels[i][j].b, 255 });
 			DrawPoint({ i, m_height - j });
+		}
+	}
+
+}
+
+
+
+void Renderer::DrawWithoutParallel()
+{
+	// checks 100 times 
+	check = 100;
+
+	// rand created
+	Randomizer rand;
+
+	// Helps deal with Randomizer
+	srand(time(NULL));
+
+	// 5 spot created for objects
+	RayHitAble* list[5];
+
+	// Objects in world created 
+	list[0] = new Object(glm::vec3(0.0, 0.0, -1.0), 0.5f, new Lambertain(glm::vec3(0.8, 0.3, 0.3)));
+	list[1] = new Object(glm::vec3(0.0, -100.5, -1.0f), 100.0f, new Lambertain(glm::vec3(0.8, 0.8, 0.0)));
+	list[2] = new Object(glm::vec3(1.0, 0.0, -1.0), 0.5f, new Metal(glm::vec3(0.8, 0.6, 0.2), 1.0f /*0.0f*/));
+	list[3] = new Object(glm::vec3(-1.0, 0.0f, -1.0), -0.5f, new Dielectric(3.5f));
+	list[4] = new Object(glm::vec3(-1.0, 0.0f, -1.0), -0.45f, new Dielectric(3.5f));
+
+	// 5 objects stored into the list and shown in scene
+	RayHitAble* world = new RayHitList(list, 5);
+
+
+	for (int j = m_height - 1; j >= 0; j--)
+	{
+		for (int i = 0; i < m_width; i++)
+		{
+			glm::vec3 pixelColour = { 0.0f, 0.0f, 0.0f };
+
+
+			for (int anit = 0; anit < check; anit++)
+			{
+				//float u and v help with Antialiasing
+				float u = float(i + rand.RandomNumber()) / float(m_width);
+				float v = float(j + rand.RandomNumber()) / float(m_height);
+
+				std::shared_ptr<Ray> ray = std::make_shared<Ray>(m_camera->GetOrigin(), m_camera->GetBottomLeftCorner() + (u * m_camera->GetHorizontal()) + (v * m_camera->GetVertical()));
+
+				glm::vec3 p = ray->GetRayPoint(2.0f);
+				pixelColour += m_object->Colour(ray, world, 0);
+
+			}
+
+
+			pixelColour /= float(check);
+			pixelColour = glm::vec3(glm::sqrt(pixelColour[0]), glm::sqrt(pixelColour[1]), glm::sqrt(pixelColour[2])); //makes the colouring lighter 
+			int red = int(255.99 * pixelColour[0]);
+			int green = int(255.99 * pixelColour[1]);
+			int blue = int(255.99 * pixelColour[2]);
+
+			m_pixels[i][j] = { red, green, blue };
+			DrawColour({ m_pixels[i][j].r, m_pixels[i][j].g, m_pixels[i][j].b, 255 });
+			DrawPoint({ i, m_height - j });
+
 		}
 	}
 
