@@ -73,6 +73,7 @@ void Renderer::Draw()
 
 	RayHitAble* list[4];
 
+	// Objects in world created 
 	list[0] = new Object(glm::vec3(0.0, 0.0, -1.0), 0.5f, new Lambertain(glm::vec3(0.8, 0.3, 0.3)));
 	list[1] = new Object(glm::vec3(0.0, -100.5, -1.0f), 100.0f, new Lambertain(glm::vec3(0.8, 0.8, 0.0)));
 	list[2] = new Object(glm::vec3(1.0, 0.0, -1.0), 0.5f, new Metal(glm::vec3(0.8, 0.6, 0.2), 0.3f));
@@ -80,7 +81,7 @@ void Renderer::Draw()
 
 	RayHitAble* world = new RayHitList(list, 4);
 
-	m_areaCount = { 16, 16 };
+	m_areaCount = { 8, 8 };
 	m_areaSize = { m_width / m_areaCount.x, m_height / m_areaCount.y };
 
 	for (unsigned int y = 0; y < m_areaCount.y; y++)
@@ -132,7 +133,7 @@ void Renderer::HandleAreas(Area _area, RayHitAble* _world)
 
 			glm::vec3 pixelColour = { 0.0f, 0.0f, 0.0f };
 
-			for (int antialias = 0; antialias < check; antialias++)
+			for (int anti = 0; anti < check; anti++)
 			{
 				//float u and v help with Antialiasing
 				float u = float(x + rand.RandomNumber()) / float(m_width);
@@ -140,13 +141,16 @@ void Renderer::HandleAreas(Area _area, RayHitAble* _world)
 
 				std::shared_ptr<Ray> ray = std::make_shared<Ray>(m_camera->GetOrigin(), m_camera->GetBottomLeftCorner() + (u * m_camera->GetHorizontal()) + (v * m_camera->GetVertical()));
 
+				// Gets ray point
 				glm::vec3 p = ray->GetRayPoint(2.0f);
+				// Gets the colour
 				pixelColour += m_object->Colour(ray, _world, 0);
 
 			}
 
-
+			//colour is divided by check
 			pixelColour /= float(check);
+			// Square roots RGB values
 			pixelColour = glm::vec3(glm::sqrt(pixelColour[0]), glm::sqrt(pixelColour[1]), glm::sqrt(pixelColour[2]));
 
 			int red = int(255.99 * pixelColour[0]);

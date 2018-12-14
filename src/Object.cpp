@@ -13,7 +13,7 @@ Object::Object(glm::vec3 _centre, float _radius, Material* _material)
 
 bool Object::Hit(const std::shared_ptr<Ray> _ray, float _min, float _max, RayHit & _rayHit) const
 {
-	// Calculates the distanace between the start point(Origin) of the ray and objects centre
+	// calulates the distance of the start point to the centre of the object
 	glm::vec3 objectCentre = _ray->GetOrigin() - m_centre;
 
 	// calculating using the quadratic formula 
@@ -22,13 +22,13 @@ bool Object::Hit(const std::shared_ptr<Ray> _ray, float _min, float _max, RayHit
 	float c = glm::dot(objectCentre, objectCentre) - m_radius * m_radius;
 	float discriminant = b * b - a * c;
 
-	// Checks for the discriminant being greater than 0 
+	// check if it is greater than 0 
 	if (discriminant > 0)
 	{
-		// Use of the first solution of the quadratic 
+		// First soultion of quadratic
 		float rayPos = (-b - glm::sqrt(b * b - a * c)) / a;
 
-		// checks if ray pos is in bound
+		// Checks if ray pos is in bound
 		if (rayPos < _max && rayPos > _min)
 		{
 			// Hit values of ray set
@@ -41,10 +41,10 @@ bool Object::Hit(const std::shared_ptr<Ray> _ray, float _min, float _max, RayHit
 			return true;
 		}
 
-		// Use of the second solution of the quadratic
+		// Second soultion of quadratic
 		rayPos = (-b + glm::sqrt(b * b - a * c)) / a;
 
-		// checks if ray pos is in bound
+		// Checks if ray pos is in bound
 		if (rayPos < _max && rayPos > _min)
 		{
 			// Hit values of ray set
@@ -64,12 +64,15 @@ bool Object::Hit(const std::shared_ptr<Ray> _ray, float _min, float _max, RayHit
 
 glm::vec3 Object::RandomNumInObj()
 {
+	// point has been set
 	glm::vec3 point = { 0.0f, 0.0f, 0.0f };
 
+	// Randomizer insatnace created
 	Randomizer rand;
 
 	do
 	{
+		// point is timed by two and randomized
 		point = 2.0f * glm::vec3(rand.RandomNumber(), rand.RandomNumber(), rand.RandomNumber()) - glm::vec3(1.0f, 1.0f, 1.0f);
 	} while (point.x * point.x + point.y * point.y + point.z * point.z >= 1.0f);
 	return point;
@@ -94,6 +97,11 @@ glm::vec3 Object::Colour(std::shared_ptr<Ray> _ray, RayHitAble* _world, int _dep
 		{
 			return glm::vec3 { 0.0f, 0.0f, 0.0f };
 		}
+		/*glm::vec3 target = rayHit.m_point + rayHit.m_normal + RandomNumInObj();
+
+		std::shared_ptr<Ray> m_ray = std::make_shared<Ray>(rayHit.m_point, target - rayHit.m_point);
+
+		return 0.5f * Colour(m_ray, _world, 0);*/
 	}
 	else
 	{
