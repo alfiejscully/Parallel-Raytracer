@@ -69,30 +69,36 @@ void Renderer::Draw()
 	// checks 100 times 
 	check = 100;
 
+	// Helps deal with Randomizer
 	srand(time(NULL));
 
-	RayHitAble* list[4];
+	RayHitAble* list[5];
 
 	// Objects in world created 
 	list[0] = new Object(glm::vec3(0.0, 0.0, -1.0), 0.5f, new Lambertain(glm::vec3(0.8, 0.3, 0.3)));
 	list[1] = new Object(glm::vec3(0.0, -100.5, -1.0f), 100.0f, new Lambertain(glm::vec3(0.8, 0.8, 0.0)));
-	list[2] = new Object(glm::vec3(1.0, 0.0, -1.0), 0.5f, new Metal(glm::vec3(0.8, 0.6, 0.2), 0.3f));
-	list[3] = new Object(glm::vec3(-1.0, 0.0f, -1.0), 0.5f, new Metal(glm::vec3(0.8, 0.8, 0.8), 1.0f));
+	list[2] = new Object(glm::vec3(1.0, 0.0, -1.0), 0.5f, new Metal(glm::vec3(0.8, 0.6, 0.2), 0.0f));
+	list[3] = new Object(glm::vec3(-1.0, 0.0f, -1.0), -0.5f, new Dielectric(1.5f));
+	list[4] = new Object(glm::vec3(-1.0, 0.0f, -1.0), -0.45f, new Dielectric(1.5f));
 
-	RayHitAble* world = new RayHitList(list, 4);
+	RayHitAble* world = new RayHitList(list, 5);
 
-	m_areaCount = { 8, 8 };
+	m_areaCount = { 2, 1 };
 	m_areaSize = { m_width / m_areaCount.x, m_height / m_areaCount.y };
 
+	// calculates the amount of areas on the y
 	for (unsigned int y = 0; y < m_areaCount.y; y++)
 	{
+		// calculates the amount of areas on the x
 		for (unsigned int x = 0; x < m_areaCount.x; x++)
 		{
 			Area area;
 
+			// find the min of x and y  
 			area.m_min.x = x * m_areaSize.x;
 			area.m_min.y = y * m_areaSize.y;
 
+			// find the max of  x and y
 			area.m_max.x = (x + 1) * m_areaSize.x;
 			area.m_max.y = (y + 1) * m_areaSize.y;
 
