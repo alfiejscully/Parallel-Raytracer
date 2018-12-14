@@ -73,10 +73,10 @@ void Renderer::Draw()
 
 	RayHitAble* list[4];
 
-	list[0] = new Object(glm::vec3(0, 0, -1), 0.5f);
-	list[1] = new Object(glm::vec3(0, -100.5, -1), 100.0f);
-	list[2] = new Object(glm::vec3(1, 0, -1), 0.5f);
-	list[3] = new Object(glm::vec3(-1, 0, -1), 0.5f);
+	list[0] = new Object(glm::vec3(0.0, 0.0, -1.0), 0.5f, new Lambertain(glm::vec3(0.8, 0.3, 0.3)));
+	list[1] = new Object(glm::vec3(0.0, -100.5, -1.0f), 100.0f, new Lambertain(glm::vec3(0.8, 0.8, 0.0)));
+	list[2] = new Object(glm::vec3(1.0, 0.0, -1.0), 0.5f, new Metal(glm::vec3(0.8, 0.6, 0.2), 0.3f));
+	list[3] = new Object(glm::vec3(-1.0, 0.0f, -1.0), 0.5f, new Metal(glm::vec3(0.8, 0.8, 0.8), 1.0f));
 
 	RayHitAble* world = new RayHitList(list, 4);
 
@@ -141,7 +141,7 @@ void Renderer::HandleAreas(Area _area, RayHitAble* _world)
 				std::shared_ptr<Ray> ray = std::make_shared<Ray>(m_camera->GetOrigin(), m_camera->GetBottomLeftCorner() + (u * m_camera->GetHorizontal()) + (v * m_camera->GetVertical()));
 
 				glm::vec3 p = ray->GetRayPoint(2.0f);
-				pixelColour += m_object->Colour(ray, _world);
+				pixelColour += m_object->Colour(ray, _world, 0);
 
 			}
 

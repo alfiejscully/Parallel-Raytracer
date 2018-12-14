@@ -3,59 +3,62 @@
 #include "Randomizer.h"
 #include "Material.h"
 
-Object::Object(glm::vec3 _centre, float _radius)
+Object::Object(glm::vec3 _centre, float _radius, Material* _material)
 {
-	// Values being set 
+	// Values being stored 
 	m_centre = _centre;
 	m_radius = _radius;
+	m_material = _material;
 }
 
 bool Object::Hit(const std::shared_ptr<Ray> _ray, float _min, float _max, RayHit & _rayHit) const
 {
-	// Calculates the distnace between the start point(Origin) of the ray and objects centre
+	// Calculates the distanace between the start point(Origin) of the ray and objects centre
 	glm::vec3 objectCentre = _ray->GetOrigin() - m_centre;
 
-	// following floats below are calculating using the quadratic formula 
+	// calculating using the quadratic formula 
 	float a = glm::dot(_ray->GetDirection(), _ray->GetDirection());
 	float b = glm::dot(objectCentre, _ray->GetDirection());
 	float c = glm::dot(objectCentre, objectCentre) - m_radius * m_radius;
 	float discriminant = b * b - a * c;
 
-	// Checks for the discriminant being greater than 0 and if so an intersection is done
+	// Checks for the discriminant being greater than 0 
 	if (discriminant > 0)
 	{
-		// Use of the first solution of the quadratic for the rays position
+		// Use of the first solution of the quadratic 
 		float rayPos = (-b - glm::sqrt(b * b - a * c)) / a;
 
-		// Checking if the ray poistion is within the bounds
+		// checks if ray pos is in bound
 		if (rayPos < _max && rayPos > _min)
 		{
 			// Hit values of ray set
 			_rayHit.m_position = rayPos;
 			_rayHit.m_point = _ray->GetRayPoint(_rayHit.m_position);
 			_rayHit.m_normal = (_rayHit.m_point - m_centre) / m_radius;
+			_rayHit.m_material = m_material;
 
 			// Returns true after intersection to object
 			return true;
 		}
 
-		// Use of the second solution of the quadratic for the rays position
+		// Use of the second solution of the quadratic
 		rayPos = (-b + glm::sqrt(b * b - a * c)) / a;
 
-		// Checking if the ray poistion is within the bounds
+		// checks if ray pos is in bound
 		if (rayPos < _max && rayPos > _min)
 		{
 			// Hit values of ray set
 			_rayHit.m_position = rayPos;
 			_rayHit.m_point = _ray->GetRayPoint(_rayHit.m_position);
 			_rayHit.m_normal = (_rayHit.m_point - m_centre) / m_radius;
+			_rayHit.m_material = m_material;
 
-			// Returns true after intersection to sphere
+			// Returns true after intersection to obj
 			return true;
 		}
 	}
 
-	// Returns false if no intersection is made
+	// Returns false if no intersection is made to obj
 	return false;
 }
 
@@ -72,7 +75,7 @@ glm::vec3 Object::RandomNumInObj()
 	return point;
 }
 
-glm::vec3 Object::Colour(std::shared_ptr<Ray> _ray, RayHitAble* _world)
+glm::vec3 Object::Colour(std::shared_ptr<Ray> _ray, RayHitAble* _world, int _depth)
 {
 	// creates the hit point from ray
 	RayHit rayHit;
@@ -80,11 +83,17 @@ glm::vec3 Object::Colour(std::shared_ptr<Ray> _ray, RayHitAble* _world)
 	// Check in the table for any ray hits to any objects
 	if (_world->Hit(_ray, 0.001f, std::numeric_limits<float>::max(), rayHit))
 	{
-		glm::vec3 target = rayHit.m_point + rayHit.m_normal + RandomNumInObj();
+		std::shared_ptr<Ray> scattered = std::make_shared<Ray>();
+		glm::vec3 attenuation = { 0.0f, 0.0f, 0.0f };
 
-		std::shared_ptr<Ray> m_ray = std::make_shared<Ray>(rayHit.m_point, target - rayHit.m_point);
-
-		return 0.5f * Colour(m_ray, _world);
+		if (_depth < 50 && rayHit.m_material->Scatter(_ray, rayHit, attenuation, scattered))
+		{
+			return attenuation * Colour(scattered, _world, _depth + 1);
+		}
+		else
+		{
+			return glm::vec3 { 0.0f, 0.0f, 0.0f };
+		}
 	}
 	else
 	{

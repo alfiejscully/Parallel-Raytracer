@@ -14,6 +14,9 @@ class Camera;
 class Object;
 class RayHitList;
 class RayHitAble;
+class Material;
+class Lambertain;
+class Metal;
 
 struct Area
 {

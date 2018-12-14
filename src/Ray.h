@@ -8,15 +8,17 @@
 class Ray
 {
 private:
-	glm::vec3 m_origin = { 0.0f, 0.0f, 0.0f }; // origin point stored in this variable
-	glm::vec3 m_direction = { 0.0f, 0.0f, 0.0f }; // drection point stored in this variable
+	glm::vec3 m_origin; // origin point stored in this variable
+	glm::vec3 m_direction; // drection point stored in this variable
 
 public:
 	Ray() {}
 	Ray(const glm::vec3& _origin, const glm::vec3 _direction);
 
 	glm::vec3 GetOrigin() const; // Returns the origin point of the ray
+	void SetOrigin(glm::vec3 const _Origin) { m_origin = _Origin; }
 	glm::vec3 GetDirection() const; // Returns the direction point of the ray
+	void SetDirection(glm::vec3 const _direction) { m_direction = _direction; }
 	glm::vec3 GetRayPoint(float _position) const; // Returns the pos point along the ray
 };
 #endif
